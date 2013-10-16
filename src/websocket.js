@@ -1,4 +1,4 @@
-/*global $, io, saveHistory, getHistory, getDistance */
+/*global $, io, saveHistory, getHistory, getDistance, userName */
 
 var socket = io.connect('http://localhost:8080');
 
@@ -44,7 +44,7 @@ socket.on('join', function (msg) {
 
     names = Object.keys(data.users);
 
-    myPos = data.users['#{user}'];
+    myPos = data.users[userName];
     myPos = {"lat": 48.3548753, "long": 11.7920352};
 
     for (i = 0; i < names.length; i += 1) {
@@ -65,7 +65,7 @@ socket.on('join', function (msg) {
         var long = pos.coords.longitude;
 
         var data = {
-            name: "#{user}",
+            name: userName,
             position: {
                 "lat": lat,
                 "long": long
@@ -82,7 +82,7 @@ socket.on('connect', function () {
     "use strict";
 
     var data = {
-        name: "#{user}",
+        name: userName,
         position: {
             "lat": 52.525191,
             "long": 13.413883
