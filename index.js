@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 
+var myApp = require('./app/app');
+
+
 app.set('views', __dirname + '/app/views');
 app.set('view engine', 'jade');
 
@@ -12,34 +15,9 @@ app.use(express.logger());
 var dir = __dirname + '/public';
 app.use('/public', express.static(dir));
 
-function checkAuth(req, res, next) {
-    if (!req.session.user) {
-        res.redirect('/');
-    } else {
-        next();
-    }
-}
+app.get('/', myApp.index);
 
-app.get('/', function (req, res) {
-    if (req.session.user) {
-        res.redirect('/chat');
-    }
-
-    res.render('login');
-});
-
-app.post('/login', function (req, res) {
-    var user = req.body.username,
-        pw = req.body.password;
-
-    if (user === 'u1' && pw === 'test') {
-        req.session.user = 'u1';
-    } else if (user === 'u2' && pw === 'test') {
-        req.session.user = 'u2';
-    }
-
-    res.redirect('/chat');
-});
+app.post('/login', myApp.login);
 
 app.get('/logout', function (req, res) {
     var names = Object.keys(connections);
@@ -57,9 +35,7 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-app.get('/chat', checkAuth, function (req, res) {
-    res.render('chat', {user: req.session.user});
-});
+app.get('/chat', myApp.checkAuth, myApp.chat);
 
 var http = require('http');
 var server = http.createServer(app);
