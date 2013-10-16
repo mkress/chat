@@ -5,6 +5,8 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
 
+        banner: '/*! Most awesome node based chat ever - compiled <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+
         cssmin: {
             compress: {
                 files: {
@@ -14,9 +16,12 @@ module.exports = function (grunt) {
         },
 
         uglify: {
-            businessRoutines: {
+            options: {
+                banner: '<%= banner %>'
+            },
+            dist: {
                 files: {
-                    'public/js/logic.min.js': ['src/js/validators.js', 'src/js/tools.js']
+                    'public/js/app.min.js': ['src/js/*.js'],
                 }
             }
         },
