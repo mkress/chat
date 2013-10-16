@@ -1,24 +1,33 @@
+/*global $, io, saveHistory, getHistory, getDistance */
+
+var socket = io.connect('http://localhost:8080');
+
 $('#sendBtn').on('click', function (e) {
+    "use strict";
+
+    var msg = $('#msg').val();
+
     e.preventDefault();
-    var name = '#{user}',
-        msg = $('#msg').val();
 
     socket.emit("msg", '{"msg": "' + msg + '"}');
     $('#msg').val('');
 });
 
 socket.on('msg', function (msg) {
+    "use strict";
 
-    var now = new Date();
-    var hours = now.getHours();
+    var now, hours, minutes, time, data;
+
+    now = new Date();
+    hours = now.getHours();
     hours = (hours < 10) ? '0' + hours : hours;
-    var minutes = now.getMinutes();
+    minutes = now.getMinutes();
     minutes = (minutes < 10) ? '0' + minutes : minutes;
-    var time = hours + ':' + minutes;
+    time = hours + ':' + minutes;
 
-    var data = JSON.parse(msg);
+    data = JSON.parse(msg);
 
-    var msg = '<div>' + time + ' - <b>' + data.name + '</b>: ' + data.msg + '</div>';
+    msg = '<div>' + time + ' - <b>' + data.name + '</b>: ' + data.msg + '</div>';
 
     saveHistory(msg);
 
@@ -26,58 +35,60 @@ socket.on('msg', function (msg) {
 });
 
 socket.on('join', function (msg) {
-    var data = JSON.parse(msg);
+    "use strict";
+
+    var data, names, myPos, pos, distance, user, i;
+
+    data = JSON.parse(msg);
     $('#users').empty();
 
-    var names = Object.keys(data.users);
+    names = Object.keys(data.users);
 
-    var myPos = data.users['#{user}'];
-    var myPos = {"lat": 48.3548753, "long": 11.7920352};
+    myPos = data.users['#{user}'];
+    myPos = {"lat": 48.3548753, "long": 11.7920352};
 
-    for (var i = 0; i < names.length; i++) {
+    for (i = 0; i < names.length; i += 1) {
 
-        var pos = data.users[names[i]];
-        var distance = getDistance(pos.lat, pos.long, myPos.lat, myPos.long);
+        pos = data.users[names[i]];
+        distance = getDistance(pos.lat, pos.long, myPos.lat, myPos.long);
 
-        var user = $('<div>' + names[i] + ' (' + distance + ')</div>');
+        user = $('<div>' + names[i] + ' (' + distance + ')</div>');
         $('#users').append(user);
-
     }
 });
 
-var socket = io.connect('http://localhost:8080');
-if (false) {
-    socket.on('connect', function () {
-        var geolocation = navigator.geolocation;
+/*socket.on('connect', function () {
+    var geolocation = navigator.geolocation;
 
-        geolocation.getCurrentPosition(function (pos) {
-            var lat = pos.coords.latitude;
-            var long = pos.coords.longitude;
+    geolocation.getCurrentPosition(function (pos) {
+        var lat = pos.coords.latitude;
+        var long = pos.coords.longitude;
 
-            var data = {
-                name: "#{user}",
-                position: {
-                    "lat": lat,
-                    "long": long
-                }
-            }
-
-            var data = JSON.stringify(data);
-            getHistory();
-            socket.emit("join", data);
-        });
-    });
-} else {
-    socket.on('connect', function () {
         var data = {
             name: "#{user}",
             position: {
-                "lat": 52.525191,
-                "long": 13.413883
+                "lat": lat,
+                "long": long
             }
         }
+
         var data = JSON.stringify(data);
         getHistory();
         socket.emit("join", data);
-    })
-}
+    });
+});*/
+
+socket.on('connect', function () {
+    "use strict";
+
+    var data = {
+        name: "#{user}",
+        position: {
+            "lat": 52.525191,
+            "long": 13.413883
+        }
+    };
+    data = JSON.stringify(data);
+    getHistory();
+    socket.emit("join", data);
+});
