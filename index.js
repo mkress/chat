@@ -47,11 +47,11 @@ app.get('/logout', function (req, res) {
 
     var msg = '{"names": ["' + names.join('","') + '"]}';
 
-    connections[req.session.user].socket.broadcast.emit('join', msg);
-
-    connections[req.session.user].socket.disconnect();
+    if (connections[req.session.user] && connections[req.session.user].socket) {
+        connections[req.session.user].socket.broadcast.emit('join', msg);
+        connections[req.session.user].socket.disconnect();
+    }
     delete connections[req.session.user];
-
     delete req.session.user;
 
     res.redirect('/');
