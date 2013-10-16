@@ -61,11 +61,6 @@ module.exports = function (grunt) {
                     "public/css/chat.css": "less/chat.less"
                 }
             }
-        },
-
-        watch: {
-            files: ['src/js/*.js'],
-            tasks: ['jslint']
         }
     });
 
@@ -76,8 +71,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
-
-    grunt.loadNpmTasks('grunt-contrib-watch');
 
     //grunt.registerTask('default', ['cssmin', 'uglify', 'jslint']);
     grunt.registerTask('default', ['clean', 'less', 'copy']);
