@@ -67,5 +67,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['clean', 'less', 'copy']);
+    grunt.registerTask('default', ['clean', 'less', 'copy', 'jslint']);
 };
