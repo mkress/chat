@@ -64,11 +64,6 @@ module.exports = function (grunt) {
                     "public/css/chat.css": "less/chat.less"
                 }
             }
-        },
-
-        watch: {
-            files: ['src/js/*.js'],
-            tasks: ['jslint']
         }
     });
 
