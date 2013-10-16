@@ -21,7 +21,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'public/js/app.min.js': ['src/js/*.js'],
+                    'public/js/app.min.js': ['src/*.js']
                 }
             }
         },
