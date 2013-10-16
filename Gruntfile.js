@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         },
 
         jslint: {
-            files: ['src/js/*.js']
+            src: ['src/*.js']
         },
 
         copy: {
