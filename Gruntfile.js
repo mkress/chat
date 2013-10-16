@@ -1,6 +1,9 @@
 module.exports = function (grunt) {
+
+    // Load all tasks
+    require('load-grunt-tasks')(grunt);
+
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
 
         cssmin: {
             compress: {
@@ -69,16 +72,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-jslint');
-
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-less');
-
-    grunt.loadNpmTasks('grunt-contrib-watch');
-
-    //grunt.registerTask('default', ['cssmin', 'uglify', 'jslint']);
     grunt.registerTask('default', ['clean', 'less', 'copy']);
 };
