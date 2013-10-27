@@ -18,4 +18,4 @@ bower install
 ## Ausführung der grunt-Tasks:
 Führt den angegebenen beziehungsweise den default-Task aus. Die Tasks werden in der Gruntfile.js konfiguriert.
 
-grunt
+grunt [<task>]
